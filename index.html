@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="it">
+ <head>
+  <meta charset="UTF-8">
+  <title>Profitto in tempo reale</title>
+  <link rel="manifest" href="manifest.json">
+  <style>
+    body { font-family: sans-serif; text-align: center; padding: 20px; }
+    h1 { font-size: 5em; margin-bottom: 0; }
+    #time { font-size: 2.5em; color: #555; margin-top: 0; }
+    input, button { margin: 20px; padding: 40px; font-size: 2.5em; }
+  </style>
+ </head>
+ <body>
+  <h1>Hai guadagnato:</h1>
+  <h1 id="amount">0.00€</h1>
+  <p id="time">0h 0m 0s</p><label> Euro l'ora: <input type="number" id="euroPerHour" value="9" onchange="saveRate()"> </label>
+  <br><button onclick="startTimer()">Start</button> <button onclick="pauseTimer()">Pausa</button> <button onclick="resetTimer()">Reset</button>
+  <script>
+    let startTime = null;
+    let timerInterval;
+
+    function formatTime(ms) {
+      let totalSeconds = Math.floor(ms / 1000);
+      const hours = Math.floor(totalSeconds / 3600);
+      totalSeconds %= 3600;
+      const minutes = Math.floor(totalSeconds / 60);
+const seconds = totalSeconds % 60;
+      return `${hours}h ${minutes}m ${seconds}s`;
+    }
+
+    function updateAmount() {
+      if (!startTime) return;
+      const now = Date.now();
+      const elapsedMs = now - startTime;
+      const euroPerHour = parseFloat(document.getElementById('euroPerHour').value) || 0;
+      const euroPerMs = euroPerHour / (60 * 60 * 1000);
+      const total = elapsedMs * euroPerMs;
+      document.getElementById('amount').textContent = total.toFixed(2) + '€';
+      document.getElementById('time').textContent = formatTime(elapsedMs);
+    }
+
+    function saveRate() {
+      const rate = document.getElementById('euroPerHour').value;
+      localStorage.setItem('rate', rate);
+    }
+
+    function startTimer() {
+      if (!startTime) {
+        startTime = Date.now();
+        localStorage.setItem('startTime', startTime);
+      }
+      clearInterval(timerInterval);
+      timerInterval = setInterval(updateAmount, 100);
+    }
+
+    function pauseTimer() {
+      clearInterval(timerInterval);
+    }
+
+    function resetTimer() {
+      startTime = null;
+      clearInterval(timerInterval);
+      localStorage.removeItem('startTime');
+      document.getElementById('amount').textContent = '0.00€';
+      document.getElementById('time').textContent = '0h 0m 0s';
+    }
+window.onload = () => {
+      const savedStart = localStorage.getItem('startTime');
+      const savedRate = localStorage.getItem('rate');
+      if (savedRate) document.getElementById('euroPerHour').value = savedRate;
+      if (savedStart) {
+        startTime = parseInt(savedStart);
+        startTimer();
+      }
+    };
+  </script>
+ </body>
+</html>>body>
+</html></body>
+</html>ody>
+</html>cript>
+</body>
+</html></script>
+ </body>
+</html>
