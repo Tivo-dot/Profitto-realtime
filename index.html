@@ -65,21 +65,23 @@ const seconds = totalSeconds % 60;
       document.getElementById('amount').textContent = '0.00€';
       document.getElementById('time').textContent = '0h 0m 0s';
     }
-window.onload = () => {
-      const savedStart = localStorage.getItem('startTime');
-      const savedRate = localStorage.getItem('rate');
-      if (savedRate) document.getElementById('euroPerHour').value = savedRate;
-      if (savedStart) {
-        startTime = parseInt(savedStart);
-        startTimer();
-      }
-      html
-<script>
+    </script>
+  <script>
+  window.onload = () => {
+    const savedStart = localStorage.getItem('startTime');
+    const savedRate = localStorage.getItem('rate');
+    if (savedRate) document.getElementById('euroPerHour').value = savedRate;
+    if (savedStart) {
+      startTime = parseInt(savedStart);
+      startTimer();
+    }
+  };
+
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('service-worker.js')
       .then(() => console.log('Service Worker registrato'))
       .catch(error => console.error('Errore Service Worker:', error));
   }
-</script>
+</script>ipt
  </body>
 </html>
